@@ -67,4 +67,7 @@ export class Employee {
 
   @Column({ nullable: true })
   address: string;
+
+  @Column({ nullable: true })
+  moreDetails: string;
 }

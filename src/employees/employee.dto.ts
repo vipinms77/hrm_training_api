@@ -36,6 +36,9 @@ export class UpdateEmployeeDto {
 
   @ApiProperty({ required: false })
   address: string;
+
+  @ApiProperty({ required: false })
+  moreDetails: string;
 }
 
 export class CreateEmployeeDto {
@@ -74,6 +77,10 @@ export class CreateEmployeeDto {
 
   @ApiProperty({ required: false })
   address: string;
+
+
+  @ApiProperty({ required: false })
+  moreDetails: string;
 }
 
 export interface EmployeeDto {
@@ -89,4 +96,5 @@ export interface EmployeeDto {
   dateOfJoining: string;
   salary: string;
   address: string;
+  moreDetails: string;
 }
