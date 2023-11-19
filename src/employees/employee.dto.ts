@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { SkillsDto } from 'src/skills/skills.dto';
 
 export class UpdateEmployeeDto {
   @ApiProperty({ required: false })
@@ -26,7 +27,7 @@ export class UpdateEmployeeDto {
   roleId: number;
 
   @ApiProperty({ required: false })
-  skills: string;
+  skills: number[];
 
   @ApiProperty({ required: false })
   dateOfJoining: string;
@@ -61,13 +62,13 @@ export class CreateEmployeeDto {
   designation: string;
 
   @ApiProperty({ required: false })
-  departmentId: number;
+  department: number;
 
   @ApiProperty({ required: false })
-  roleId: number;
+  role: number;
 
   @ApiProperty({ required: false })
-  skills: string;
+  skills: Array<number>;
 
   @ApiProperty({ required: false })
   dateOfJoining: string;
@@ -77,7 +78,6 @@ export class CreateEmployeeDto {
 
   @ApiProperty({ required: false })
   address: string;
-
 
   @ApiProperty({ required: false })
   moreDetails: string;
@@ -92,7 +92,7 @@ export interface EmployeeDto {
   designation: string;
   departmentId: number;
   roleId: number;
-  skills: string;
+  skills: Array<SkillsDto>;
   dateOfJoining: string;
   salary: string;
   address: string;

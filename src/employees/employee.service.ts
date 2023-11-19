@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from 'src/database/employee.entity';
+import { Skill } from 'src/database/skill.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -8,7 +9,7 @@ export class EmployeeService {
   constructor(
     @Inject('EMPLOYEE_REPOSITORY')
     private employeeRepository: Repository<Employee>,
-  ) { }
+  ) {}
   /**
    * Retrieves all employees from the database.
    *
@@ -28,10 +29,15 @@ export class EmployeeService {
    */
   async createEmployee(employeeDetail: any): Promise<any> {
     try {
+      const skills = employeeDetail.skills;
       const insertData: any = await this.employeeRepository.insert({
         ...employeeDetail,
       });
-      return insertData.raw[0].id;
+      const employeeId = insertData.raw.insertId;
+      if (skills?.length) {
+        await this.deleteAllEmployeeSkills(15);
+      }
+      return { id: employeeId };
     } catch (err) {
       return err;
     }
@@ -62,8 +68,14 @@ export class EmployeeService {
    */
   async updateEmployee(id: number, employeeDetail: any): Promise<any> {
     try {
-      const data = await this.employeeRepository.update(id, employeeDetail);
-      return data;
+      const skills = employeeDetail.skills;
+      if (skills) {
+        delete employeeDetail.skills;
+        await this.deleteAllEmployeeSkills(id);
+        await this.insertSkills(id, skills);
+      }
+      await this.employeeRepository.update(id, employeeDetail);
+      return { id };
     } catch (err) {
       throw new Error(err);
     }
@@ -78,6 +90,47 @@ export class EmployeeService {
     try {
       const data = await this.employeeRepository.delete(id);
       return data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Inserts skills for an employee.
+   *
+   * @param {number} employeeId - The ID of the employee.
+   * @param {Array<number | string>} skillIds - An array of skill IDs.
+   * @return {Promise<any>} A promise that resolves with the inserted data.
+   */
+  async insertSkills(
+    employeeId: number,
+    skillIds: Array<number | string>,
+  ): Promise<any> {
+    try {
+      const data = await this.employeeRepository
+        .createQueryBuilder()
+        .relation(Employee, 'skills')
+        .of(employeeId)
+        .add(skillIds);
+      return data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Deletes all the skills of an employee.
+   *
+   * @param {number} employeeId - The ID of the employee.
+   * @return {Promise<any>} A promise that resolves to the updated employee object.
+   */
+  async deleteAllEmployeeSkills(employeeId: number): Promise<any> {
+    try {
+      const employee = await this.employeeRepository.findOne({
+        where: { id: employeeId },
+      });
+      employee.skills = [];
+      return await this.employeeRepository.save(employee);
     } catch (err) {
       throw new Error(err);
     }

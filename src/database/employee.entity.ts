@@ -1,6 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { Department } from './department.entity';
 import { Role } from './role.entity';
+import { Skill } from './skill.entity';
 
 @Entity()
 export class Employee {
@@ -62,12 +70,20 @@ export class Employee {
   @ManyToOne(() => Role, (role) => role.employees)
   role: Role;
 
-  @Column({ nullable: true })
-  skills: string;
+  // @Column({ nullable: true })
+  // skills: string;
 
   @Column({ nullable: true })
   address: string;
 
   @Column({ nullable: true })
   moreDetails: string;
+
+  @ManyToMany(() => Skill, (skill) => skill.employees, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: 'employee_skill',
+  })
+  skills: Skill[];
 }
