@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
 import { AppService } from 'src/app.service';
@@ -31,8 +32,19 @@ export class EmployeeController {
    * @return {Promise<Array<EmployeeDto>>} Returns a promise that resolves to an array of EmployeeDto objects.
    */
   @Get()
-  async getAllEmployees(): Promise<any> {
-    const [employees, count] = await this.employeeService.getAllEmployees();
+  async getAllEmployees(
+    @Query('limit') limit?: number,
+    @Query('offset') offset?: number,
+    @Query('sortBy') sortBy?: string,
+    @Query('sortDir') sortDir?: 'ASC' | 'DESC',
+  ): Promise<any> {
+    const [employees, count] = await this.employeeService.getAllEmployees(
+      limit,
+      offset,
+      sortBy,
+      sortDir,
+      '',
+    );
     return this.appService.generateSuccessResponse({ employees, count });
   }
 

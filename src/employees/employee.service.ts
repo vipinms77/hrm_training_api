@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from 'src/database/employee.entity';
 import { Skill } from 'src/database/skill.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class EmployeeService {
@@ -15,10 +15,31 @@ export class EmployeeService {
    *
    * @return {Promise<any>} A promise that resolves to the data of all employees.
    */
-  async getAllEmployees(): Promise<any> {
-    const data = await this.employeeRepository.findAndCount({
+  async getAllEmployees(
+    limit: number,
+    offset: number,
+    sortBy: string,
+    sortDir: string,
+    search: string,
+  ): Promise<any> {
+    const queryObj = {
       relations: ['role', 'department', 'skills'],
-    });
+    };
+    if (limit) {
+      queryObj['take'] = limit || 10;
+      queryObj['skip'] = offset || 0;
+    }
+    if (sortBy) {
+      queryObj['order'] = {
+        [sortBy]: sortDir || 'ASC',
+      };
+    }
+    if (search) {
+      queryObj['where'] = {
+        firstName: Like(`%${search}%`),
+      };
+    }
+    const data = await this.employeeRepository.findAndCount(queryObj);
     return data;
   }
   /**
