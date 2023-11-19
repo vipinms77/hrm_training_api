@@ -17,7 +17,7 @@ export class EmployeeService {
    */
   async getAllEmployees(): Promise<any> {
     const data = await this.employeeRepository.findAndCount({
-      relations: ['role', 'department'],
+      relations: ['role', 'department', 'skills'],
     });
     return data;
   }
@@ -35,7 +35,7 @@ export class EmployeeService {
       });
       const employeeId = insertData.raw.insertId;
       if (skills?.length) {
-        await this.deleteAllEmployeeSkills(15);
+        await this.insertSkills(employeeId, skills);
       }
       return { id: employeeId };
     } catch (err) {
@@ -51,7 +51,7 @@ export class EmployeeService {
   async getEmployeeDetails(id: number): Promise<any> {
     try {
       const data = await this.employeeRepository.findOne({
-        relations: ['role', 'department'],
+        relations: ['role', 'department', 'skills'],
         where: { id: id },
       });
       return data;

@@ -80,7 +80,7 @@ export class Employee {
   moreDetails: string;
 
   @ManyToMany(() => Skill, (skill) => skill.employees, {
-    cascade: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable({
     name: 'employee_skill',
