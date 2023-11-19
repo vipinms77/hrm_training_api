@@ -70,9 +70,6 @@ export class Employee {
   @ManyToOne(() => Role, (role) => role.employees)
   role: Role;
 
-  // @Column({ nullable: true })
-  // skills: string;
-
   @Column({ nullable: true })
   address: string;
 
