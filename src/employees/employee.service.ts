@@ -1,8 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from 'src/database/employee.entity';
-import { Skill } from 'src/database/skill.entity';
-import { Like, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 
 @Injectable()
 export class EmployeeService {
@@ -21,6 +19,7 @@ export class EmployeeService {
     sortBy: string,
     sortDir: string,
     search: string,
+    skillIds: Array<number>,
   ): Promise<any> {
     const queryObj = {
       relations: ['role', 'department', 'skills'],
@@ -38,6 +37,9 @@ export class EmployeeService {
       queryObj['where'] = {
         firstName: Like(`%${search}%`),
       };
+    }
+    if (skillIds?.length > 0) {
+      queryObj['where']['skills'] = { id: In(skillIds) };
     }
     const data = await this.employeeRepository.findAndCount(queryObj);
     return data;
@@ -95,7 +97,10 @@ export class EmployeeService {
         await this.deleteAllEmployeeSkills(id);
         await this.insertSkills(id, skills);
       }
-      await this.employeeRepository.update(id, employeeDetail);
+      delete employeeDetail.skills;
+      if (Object.keys(employeeDetail).length > 0) {
+        await this.employeeRepository.update(id, employeeDetail);
+      }
       return { id };
     } catch (err) {
       throw new Error(err);

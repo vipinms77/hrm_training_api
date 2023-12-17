@@ -15,6 +15,7 @@ import { AppService } from 'src/app.service';
 import {
   CreateEmployeeDto,
   EmployeeDto,
+  EmployeeSearchDto,
   UpdateEmployeeDto,
 } from './employee.dto';
 import { Employee } from 'src/database/employee.entity';
@@ -33,17 +34,20 @@ export class EmployeeController {
    */
   @Get()
   async getAllEmployees(
-    @Query('limit') limit?: number,
-    @Query('offset') offset?: number,
-    @Query('sortBy') sortBy?: string,
-    @Query('sortDir') sortDir?: 'ASC' | 'DESC',
+    @Query()
+    query: EmployeeSearchDto,
   ): Promise<any> {
+    const { limit, offset, sortBy, sortDir, search, skillIds } = query;
+    const skills: Array<number> = skillIds
+      ? skillIds.split(',').map((x) => parseInt(x))
+      : [];
     const [employees, count] = await this.employeeService.getAllEmployees(
       limit,
       offset,
       sortBy,
       sortDir,
-      '',
+      search,
+      skills,
     );
     return this.appService.generateSuccessResponse({ employees, count });
   }

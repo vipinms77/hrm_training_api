@@ -98,3 +98,26 @@ export interface EmployeeDto {
   address: string;
   moreDetails: string;
 }
+
+export class EmployeeSearchDto {
+  @ApiProperty({ required: true })
+  limit: number;
+
+  @ApiProperty({ required: true })
+  offset: number;
+
+  @ApiProperty({ required: false })
+  sortBy: string;
+
+  @ApiProperty({ required: false })
+  sortDir: 'ASC' | 'DESC';
+
+  @ApiProperty({ required: false })
+  search: string;
+
+  @ApiProperty({
+    required: false,
+    description: 'Pass skill ids as comma separated value',
+  })
+  skillIds: string;
+}
