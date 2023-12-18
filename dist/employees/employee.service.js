@@ -20,7 +20,7 @@ let EmployeeService = class EmployeeService {
     constructor(employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
-    async getAllEmployees(limit, offset, sortBy, sortDir, search) {
+    async getAllEmployees(limit, offset, sortBy, sortDir, search, skillIds) {
         const queryObj = {
             relations: ['role', 'department', 'skills'],
         };
@@ -37,6 +37,9 @@ let EmployeeService = class EmployeeService {
             queryObj['where'] = {
                 firstName: (0, typeorm_1.Like)(`%${search}%`),
             };
+        }
+        if (skillIds?.length > 0) {
+            queryObj['where']['skills'] = { id: (0, typeorm_1.In)(skillIds) };
         }
         const data = await this.employeeRepository.findAndCount(queryObj);
         return data;
@@ -77,7 +80,10 @@ let EmployeeService = class EmployeeService {
                 await this.deleteAllEmployeeSkills(id);
                 await this.insertSkills(id, skills);
             }
-            await this.employeeRepository.update(id, employeeDetail);
+            delete employeeDetail.skills;
+            if (Object.keys(employeeDetail).length > 0) {
+                await this.employeeRepository.update(id, employeeDetail);
+            }
             return { id };
         }
         catch (err) {

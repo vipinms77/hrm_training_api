@@ -44,3 +44,11 @@ export interface EmployeeDto {
     address: string;
     moreDetails: string;
 }
+export declare class EmployeeSearchDto {
+    limit: number;
+    offset: number;
+    sortBy: string;
+    sortDir: 'ASC' | 'DESC';
+    search: string;
+    skillIds: string;
+}

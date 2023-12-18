@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateEmployeeDto = exports.UpdateEmployeeDto = void 0;
+exports.EmployeeSearchDto = exports.CreateEmployeeDto = exports.UpdateEmployeeDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 class UpdateEmployeeDto {
 }
@@ -121,4 +121,34 @@ __decorate([
     (0, swagger_1.ApiProperty)({ required: false }),
     __metadata("design:type", String)
 ], CreateEmployeeDto.prototype, "moreDetails", void 0);
+class EmployeeSearchDto {
+}
+exports.EmployeeSearchDto = EmployeeSearchDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true }),
+    __metadata("design:type", Number)
+], EmployeeSearchDto.prototype, "limit", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: true }),
+    __metadata("design:type", Number)
+], EmployeeSearchDto.prototype, "offset", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    __metadata("design:type", String)
+], EmployeeSearchDto.prototype, "sortBy", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    __metadata("design:type", String)
+], EmployeeSearchDto.prototype, "sortDir", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    __metadata("design:type", String)
+], EmployeeSearchDto.prototype, "search", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        required: false,
+        description: 'Pass skill ids as comma separated value',
+    }),
+    __metadata("design:type", String)
+], EmployeeSearchDto.prototype, "skillIds", void 0);
 //# sourceMappingURL=employee.dto.js.map

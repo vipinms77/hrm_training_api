@@ -22,8 +22,12 @@ let EmployeeController = class EmployeeController {
         this.employeeService = employeeService;
         this.appService = appService;
     }
-    async getAllEmployees(limit, offset, sortBy, sortDir) {
-        const [employees, count] = await this.employeeService.getAllEmployees(limit, offset, sortBy, sortDir, '');
+    async getAllEmployees(query) {
+        const { limit, offset, sortBy, sortDir, search, skillIds } = query;
+        const skills = skillIds
+            ? skillIds.split(',').map((x) => parseInt(x))
+            : [];
+        const [employees, count] = await this.employeeService.getAllEmployees(limit, offset, sortBy, sortDir, search, skills);
         return this.appService.generateSuccessResponse({ employees, count });
     }
     async createEmployee(employeeDetail) {
@@ -67,12 +71,9 @@ let EmployeeController = class EmployeeController {
 exports.EmployeeController = EmployeeController;
 __decorate([
     (0, common_1.Get)(),
-    __param(0, (0, common_1.Query)('limit')),
-    __param(1, (0, common_1.Query)('offset')),
-    __param(2, (0, common_1.Query)('sortBy')),
-    __param(3, (0, common_1.Query)('sortDir')),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number, String, String]),
+    __metadata("design:paramtypes", [employee_dto_1.EmployeeSearchDto]),
     __metadata("design:returntype", Promise)
 ], EmployeeController.prototype, "getAllEmployees", null);
 __decorate([

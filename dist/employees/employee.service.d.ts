@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 export declare class EmployeeService {
     private employeeRepository;
     constructor(employeeRepository: Repository<Employee>);
-    getAllEmployees(limit: number, offset: number, sortBy: string, sortDir: string, search: string): Promise<any>;
+    getAllEmployees(limit: number, offset: number, sortBy: string, sortDir: string, search: string, skillIds: Array<number>): Promise<any>;
     createEmployee(employeeDetail: any): Promise<any>;
     getEmployeeDetails(id: number): Promise<any>;
     updateEmployee(id: number, employeeDetail: any): Promise<any>;
