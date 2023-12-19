@@ -6,6 +6,8 @@ import { RolesModule } from './roles/roles.module';
 import { DepartmentsModule } from './departments/departments.module';
 import { EmployeesModule } from './employees/employees.module';
 import { SkillsModule } from './skills/skills.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { SkillsModule } from './skills/skills.module';
     DepartmentsModule,
     EmployeesModule,
     SkillsModule,
+    AuthModule,
+    UsersModule,
   ],
   providers: [AppService, ConfigService],
 })
