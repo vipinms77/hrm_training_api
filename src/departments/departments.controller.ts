@@ -1,6 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { DepartmentService } from './department.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth('access-token')
 @Controller('departments')
 export class DepartmentsController {
   constructor(private departmentService: DepartmentService) {}

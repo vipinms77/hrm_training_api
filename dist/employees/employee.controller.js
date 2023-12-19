@@ -18,6 +18,7 @@ const employee_service_1 = require("./employee.service");
 const app_service_1 = require("../app.service");
 const employee_dto_1 = require("./employee.dto");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let EmployeeController = class EmployeeController {
     constructor(employeeService, appService) {
         this.employeeService = employeeService;
@@ -72,7 +73,6 @@ let EmployeeController = class EmployeeController {
 exports.EmployeeController = EmployeeController;
 __decorate([
     (0, common_1.Get)(),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [employee_dto_1.EmployeeSearchDto]),
@@ -108,6 +108,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], EmployeeController.prototype, "deleteEmployee", null);
 exports.EmployeeController = EmployeeController = __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiBearerAuth)('access-token'),
     (0, common_1.Controller)('employee'),
     __metadata("design:paramtypes", [employee_service_1.EmployeeService,
         app_service_1.AppService])

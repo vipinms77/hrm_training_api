@@ -17,6 +17,8 @@ const common_1 = require("@nestjs/common");
 const skills_dto_1 = require("./skills.dto");
 const skills_service_1 = require("./skills.service");
 const app_service_1 = require("../app.service");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let SkillsController = class SkillsController {
     constructor(skillService, appService) {
         this.skillService = skillService;
@@ -63,6 +65,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SkillsController.prototype, "searchSkill", null);
 exports.SkillsController = SkillsController = __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiBearerAuth)('access-token'),
     (0, common_1.Controller)('skills'),
     __metadata("design:paramtypes", [skills_service_1.SkillsService,
         app_service_1.AppService])

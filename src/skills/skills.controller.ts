@@ -6,11 +6,16 @@ import {
   HttpStatus,
   Get,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateSkillsDto } from './skills.dto';
 import { SkillsService } from './skills.service';
 import { AppService } from 'src/app.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth('access-token')
 @Controller('skills')
 export class SkillsController {
   constructor(

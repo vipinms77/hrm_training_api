@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RolesController = void 0;
 const common_1 = require("@nestjs/common");
 const role_service_1 = require("./role.service");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let RolesController = class RolesController {
     constructor(roleService) {
         this.roleService = roleService;
@@ -29,6 +31,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], RolesController.prototype, "getRoles", null);
 exports.RolesController = RolesController = __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiBearerAuth)('access-token'),
     (0, common_1.Controller)('roles'),
     __metadata("design:paramtypes", [role_service_1.RoleService])
 ], RolesController);

@@ -22,7 +22,8 @@ import {
 import { Employee } from 'src/database/employee.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
-
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth('access-token')
 @Controller('employee')
 export class EmployeeController {
   constructor(
@@ -36,7 +37,6 @@ export class EmployeeController {
    * @return {Promise<Array<EmployeeDto>>} Returns a promise that resolves to an array of EmployeeDto objects.
    */
   @Get()
-  @UseGuards(JwtAuthGuard)
   async getAllEmployees(
     @Query()
     query: EmployeeSearchDto,

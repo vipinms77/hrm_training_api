@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DepartmentsController = void 0;
 const common_1 = require("@nestjs/common");
 const department_service_1 = require("./department.service");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let DepartmentsController = class DepartmentsController {
     constructor(departmentService) {
         this.departmentService = departmentService;
@@ -29,6 +31,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], DepartmentsController.prototype, "getDepartments", null);
 exports.DepartmentsController = DepartmentsController = __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiBearerAuth)('access-token'),
     (0, common_1.Controller)('departments'),
     __metadata("design:paramtypes", [department_service_1.DepartmentService])
 ], DepartmentsController);
