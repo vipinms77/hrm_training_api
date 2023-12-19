@@ -39,6 +39,9 @@ let EmployeeService = class EmployeeService {
             };
         }
         if (skillIds?.length > 0) {
+            if (!queryObj['where']) {
+                queryObj['where'] = {};
+            }
             queryObj['where']['skills'] = { id: (0, typeorm_1.In)(skillIds) };
         }
         const data = await this.employeeRepository.findAndCount(queryObj);

@@ -39,6 +39,9 @@ export class EmployeeService {
       };
     }
     if (skillIds?.length > 0) {
+      if (!queryObj['where']) {
+        queryObj['where'] = {};
+      }
       queryObj['where']['skills'] = { id: In(skillIds) };
     }
     const data = await this.employeeRepository.findAndCount(queryObj);
