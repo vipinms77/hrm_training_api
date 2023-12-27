@@ -3,6 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { RegisterUserDto } from '../users/register-user.dto';
 
+const REFRESH_EXPIRY = '1m';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -26,11 +28,14 @@ export class AuthService {
     }
 
     const payload = { sub: user.id, username: user.username };
+    const refreshToken = await this.jwtService.signAsync(
+      { sub: user.id },
+      { expiresIn: REFRESH_EXPIRY },
+    );
     const accessToken = await this.jwtService.signAsync(payload);
 
-    return { access_token: accessToken };
+    return { access_token: accessToken, refresh_token: refreshToken };
   }
-
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.usersService.findByUsername(username);
@@ -39,5 +44,24 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async renewToken(refreshToken: string) {
+    let tokenDetails: any;
+    try {
+      tokenDetails = await this.jwtService.verifyAsync(refreshToken);
+    } catch (err) {
+      throw new UnauthorizedException('Invalid token');
+    }
+    const user = await this.usersService.findOne(tokenDetails.sub);
+    const payload = { sub: user.id, username: user.username };
+    const newRefreshToken = await this.jwtService.signAsync(
+      { sub: user.id },
+      { expiresIn: REFRESH_EXPIRY },
+    );
+    const accessToken = await this.jwtService.signAsync(payload);
+
+    return { access_token: accessToken, refresh_token: newRefreshToken };
+
   }
 }

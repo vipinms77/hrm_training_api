@@ -18,6 +18,7 @@ const auth_service_1 = require("./auth.service");
 const users_service_1 = require("../users/users.service");
 const register_user_dto_1 = require("../users/register-user.dto");
 const public_decorator_1 = require("./public.decorator");
+const renew_token_dto_1 = require("./renew-token.dto");
 let AuthController = class AuthController {
     constructor(authService, usersService) {
         this.authService = authService;
@@ -30,6 +31,9 @@ let AuthController = class AuthController {
     }
     async signIn(signInDto) {
         return this.authService.signIn(signInDto);
+    }
+    async renewToken(renewToken) {
+        return this.authService.renewToken(renewToken.refreshToken);
     }
 };
 exports.AuthController = AuthController;
@@ -49,6 +53,13 @@ __decorate([
     __metadata("design:paramtypes", [register_user_dto_1.RegisterUserDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signIn", null);
+__decorate([
+    (0, common_1.Post)('renew-token'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [renew_token_dto_1.RenewTokenDto]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "renewToken", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService,

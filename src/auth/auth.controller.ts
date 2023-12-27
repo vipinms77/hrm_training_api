@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { RegisterUserDto } from '../users/register-user.dto';
 import { Public } from './public.decorator';
+import { RenewTokenDto } from './renew-token.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -23,5 +24,10 @@ export class AuthController {
   @Post('sign-in')
   async signIn(@Body() signInDto: RegisterUserDto) {
     return this.authService.signIn(signInDto);
+  }
+
+  @Post('renew-token')
+  async renewToken(@Body() renewToken: RenewTokenDto) {
+    return this.authService.renewToken(renewToken.refreshToken);
   }
 }

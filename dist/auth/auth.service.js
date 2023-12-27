@@ -13,6 +13,7 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const users_service_1 = require("../users/users.service");
+const REFRESH_EXPIRY = '1m';
 let AuthService = class AuthService {
     constructor(usersService, jwtService) {
         this.usersService = usersService;
@@ -29,8 +30,9 @@ let AuthService = class AuthService {
             throw new common_1.UnauthorizedException('Invalid username or password');
         }
         const payload = { sub: user.id, username: user.username };
+        const refreshToken = await this.jwtService.signAsync({ sub: user.id }, { expiresIn: REFRESH_EXPIRY });
         const accessToken = await this.jwtService.signAsync(payload);
-        return { access_token: accessToken };
+        return { access_token: accessToken, refresh_token: refreshToken };
     }
     async validateUser(username, password) {
         const user = await this.usersService.findByUsername(username);
@@ -39,6 +41,20 @@ let AuthService = class AuthService {
             return result;
         }
         return null;
+    }
+    async renewToken(refreshToken) {
+        let tokenDetails;
+        try {
+            tokenDetails = await this.jwtService.verifyAsync(refreshToken);
+        }
+        catch (err) {
+            throw new common_1.UnauthorizedException('Invalid token');
+        }
+        const user = await this.usersService.findOne(tokenDetails.sub);
+        const payload = { sub: user.id, username: user.username };
+        const newRefreshToken = await this.jwtService.signAsync({ sub: user.id }, { expiresIn: REFRESH_EXPIRY });
+        const accessToken = await this.jwtService.signAsync(payload);
+        return { access_token: accessToken, refresh_token: newRefreshToken };
     }
 };
 exports.AuthService = AuthService;
