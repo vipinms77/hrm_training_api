@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { RegisterUserDto } from '../users/register-user.dto';
 
-const REFRESH_EXPIRY = '2h';
+const REFRESH_EXPIRY = '10m';
 
 @Injectable()
 export class AuthService {

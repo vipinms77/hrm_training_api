@@ -13,7 +13,7 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const users_service_1 = require("../users/users.service");
-const REFRESH_EXPIRY = '2h';
+const REFRESH_EXPIRY = '10m';
 let AuthService = class AuthService {
     constructor(usersService, jwtService) {
         this.usersService = usersService;

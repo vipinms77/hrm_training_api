@@ -38,7 +38,7 @@ export class Employee {
   })
   dob: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   email: string;
 
   @Column({ nullable: true })
