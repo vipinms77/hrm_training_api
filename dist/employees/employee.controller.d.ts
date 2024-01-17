@@ -9,6 +9,7 @@ export declare class EmployeeController {
     getAllEmployees(query: EmployeeSearchDto): Promise<any>;
     createEmployee(employeeDetail: CreateEmployeeDto): Promise<EmployeeDto>;
     getEmployeeDetails(id: number): Promise<any>;
+    getEmployeeDetailsByEmail(email: string): Promise<any>;
     updateEmployee(id: number, employeeDetail: UpdateEmployeeDto): Promise<any>;
     deleteEmployee(id: number): Promise<Employee>;
 }

@@ -75,6 +75,18 @@ let EmployeeService = class EmployeeService {
             throw new Error(err);
         }
     }
+    async getEmployeeDetailsUsingEmail(email) {
+        try {
+            const data = await this.employeeRepository.findOne({
+                relations: ['role', 'department', 'skills'],
+                where: { email: email },
+            });
+            return data;
+        }
+        catch (err) {
+            throw new Error(err);
+        }
+    }
     async updateEmployee(id, employeeDetail) {
         try {
             const skills = employeeDetail.skills;

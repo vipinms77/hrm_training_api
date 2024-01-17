@@ -86,6 +86,23 @@ export class EmployeeService {
     }
   }
   /**
+   * Retrieves the details of an employee based on their Email.
+   *
+   * @param {number} id - The ID of the employee.
+   * @return {Promise<any>} A promise that resolves to the employee details.
+   */
+  async getEmployeeDetailsUsingEmail(email: string): Promise<any> {
+    try {
+      const data = await this.employeeRepository.findOne({
+        relations: ['role', 'department', 'skills'],
+        where: { email: email },
+      });
+      return data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  /**
    * Updates an employee with the given id and employee details.
    *
    * @param {number} id - The id of the employee to be updated.

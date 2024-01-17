@@ -91,6 +91,19 @@ export class EmployeeController {
     const data = await this.employeeService.getEmployeeDetails(id);
     return this.appService.generateSuccessResponse(data);
   }
+
+  /**
+   * Retrieves the details of an employee using email.
+   *
+   * @param {number} id - The ID of the employee.
+   * @return {Promise<any>} A promise that resolves with the employee details.
+   */
+  @Get('email/:email')
+  async getEmployeeDetailsByEmail(@Param('email') email: string): Promise<any> {
+    const data = await this.employeeService.getEmployeeDetailsUsingEmail(email);
+    return this.appService.generateSuccessResponse(data);
+  }
+
   /**
    * Updates an employee.
    *

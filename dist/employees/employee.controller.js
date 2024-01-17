@@ -47,6 +47,10 @@ let EmployeeController = class EmployeeController {
         const data = await this.employeeService.getEmployeeDetails(id);
         return this.appService.generateSuccessResponse(data);
     }
+    async getEmployeeDetailsByEmail(email) {
+        const data = await this.employeeService.getEmployeeDetailsUsingEmail(email);
+        return this.appService.generateSuccessResponse(data);
+    }
     async updateEmployee(id, employeeDetail) {
         const data = await this.employeeService.updateEmployee(id, employeeDetail);
         if (data) {
@@ -92,6 +96,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], EmployeeController.prototype, "getEmployeeDetails", null);
+__decorate([
+    (0, common_1.Get)('email/:email'),
+    __param(0, (0, common_1.Param)('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], EmployeeController.prototype, "getEmployeeDetailsByEmail", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
