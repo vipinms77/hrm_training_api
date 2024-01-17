@@ -92,7 +92,7 @@ __decorate([
     __metadata("design:type", String)
 ], Employee.prototype, "address", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, type: 'mediumtext' }),
     __metadata("design:type", String)
 ], Employee.prototype, "moreDetails", void 0);
 __decorate([

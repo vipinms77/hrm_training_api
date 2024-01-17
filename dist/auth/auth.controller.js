@@ -27,6 +27,7 @@ let AuthController = class AuthController {
     async signUp(registerUserDto) {
         const user = await this.usersService.create(registerUserDto);
         delete user.password;
+        delete user.id;
         return user;
     }
     async signIn(signInDto) {

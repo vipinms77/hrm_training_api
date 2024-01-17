@@ -73,7 +73,7 @@ export class Employee {
   @Column({ nullable: true })
   address: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'mediumtext' })
   moreDetails: string;
 
   @ManyToMany(() => Skill, (skill) => skill.employees, {
