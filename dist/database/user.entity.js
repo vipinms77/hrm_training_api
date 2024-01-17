@@ -32,6 +32,60 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "firstName", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "lastName", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        nullable: true,
+        type: 'date',
+        transformer: {
+            to(value) {
+                return value ? new Date(value) : null;
+            },
+            from(value) {
+                return value ? value : null;
+            },
+        },
+    }),
+    __metadata("design:type", String)
+], User.prototype, "dob", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "phone", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "designation", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        nullable: true,
+        type: 'date',
+        transformer: {
+            to(value) {
+                return value ? new Date(value) : null;
+            },
+            from(value) {
+                return value ? value : null;
+            },
+        },
+    }),
+    __metadata("design:type", String)
+], User.prototype, "dateOfJoining", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "address", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "moreDetails", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);

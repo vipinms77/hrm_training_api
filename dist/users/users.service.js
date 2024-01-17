@@ -33,8 +33,22 @@ let UsersService = class UsersService {
     async findOne(id) {
         return this.userRepository.findOne({ where: { id } });
     }
+    async findOneByUserName(username) {
+        return this.userRepository.findOne({ where: { username } });
+    }
     async findByUsername(username) {
         return this.userRepository.findOne({ where: { username } });
+    }
+    async updateUser(id, userDetail) {
+        try {
+            if (Object.keys(userDetail).length > 0) {
+                await this.userRepository.update(id, userDetail);
+            }
+            return { id };
+        }
+        catch (err) {
+            throw new Error(err);
+        }
     }
 };
 exports.UsersService = UsersService;

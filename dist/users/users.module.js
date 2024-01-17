@@ -12,6 +12,8 @@ const users_service_1 = require("./users.service");
 const users_controller_1 = require("./users.controller");
 const user_entity_1 = require("../database/user.entity");
 const database_module_1 = require("../database/database.module");
+const jwt_1 = require("@nestjs/jwt");
+const app_service_1 = require("../app.service");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
@@ -25,6 +27,8 @@ exports.UsersModule = UsersModule = __decorate([
                 inject: ['DATA_SOURCE'],
             },
             users_service_1.UsersService,
+            jwt_1.JwtService,
+            app_service_1.AppService,
         ],
         exports: [users_service_1.UsersService],
         controllers: [users_controller_1.UsersController],

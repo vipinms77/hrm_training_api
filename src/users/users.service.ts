@@ -28,7 +28,22 @@ export class UsersService {
     return this.userRepository.findOne({ where: { id } });
   }
 
+  async findOneByUserName(username: string): Promise<User> {
+    return this.userRepository.findOne({ where: { username } });
+  }
+
   async findByUsername(username: string): Promise<User> {
     return this.userRepository.findOne({ where: { username } });
+  }
+
+  async updateUser(id: number, userDetail: any): Promise<any> {
+    try {
+      if (Object.keys(userDetail).length > 0) {
+        await this.userRepository.update(id, userDetail);
+      }
+      return { id };
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }
