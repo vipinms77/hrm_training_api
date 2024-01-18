@@ -126,7 +126,7 @@ export class EmployeeController {
   ): Promise<any> {
     if (employeeDetail.email) {
       const getEmployeeDetailsByEmail = await this.employeeService.getEmployeeDetailsUsingEmail(employeeDetail.email);
-      if (getEmployeeDetailsByEmail.id != id) {
+      if (getEmployeeDetailsByEmail && getEmployeeDetailsByEmail?.id != id) {
         throw new HttpException('Email already exists', HttpStatus.CONFLICT, {
           cause: {},
         });

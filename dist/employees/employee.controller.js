@@ -62,7 +62,7 @@ let EmployeeController = class EmployeeController {
     async updateEmployee(id, employeeDetail) {
         if (employeeDetail.email) {
             const getEmployeeDetailsByEmail = await this.employeeService.getEmployeeDetailsUsingEmail(employeeDetail.email);
-            if (getEmployeeDetailsByEmail.id != id) {
+            if (getEmployeeDetailsByEmail && getEmployeeDetailsByEmail?.id != id) {
                 throw new common_1.HttpException('Email already exists', common_1.HttpStatus.CONFLICT, {
                     cause: {},
                 });
