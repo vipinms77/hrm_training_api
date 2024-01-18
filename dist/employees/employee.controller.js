@@ -33,6 +33,14 @@ let EmployeeController = class EmployeeController {
         return this.appService.generateSuccessResponse({ employees, count });
     }
     async createEmployee(employeeDetail) {
+        if (employeeDetail.email) {
+            const getEmployeeDetailsByEmail = await this.employeeService.getEmployeeDetailsUsingEmail(employeeDetail.email);
+            if (getEmployeeDetailsByEmail?.id) {
+                throw new common_1.HttpException('Email already exists', common_1.HttpStatus.CONFLICT, {
+                    cause: {},
+                });
+            }
+        }
         const data = await this.employeeService.createEmployee(employeeDetail);
         if (data) {
             return this.appService.generateSuccessResponse(data);
@@ -52,6 +60,14 @@ let EmployeeController = class EmployeeController {
         return this.appService.generateSuccessResponse(data);
     }
     async updateEmployee(id, employeeDetail) {
+        if (employeeDetail.email) {
+            const getEmployeeDetailsByEmail = await this.employeeService.getEmployeeDetailsUsingEmail(employeeDetail.email);
+            if (getEmployeeDetailsByEmail.id != id) {
+                throw new common_1.HttpException('Email already exists', common_1.HttpStatus.CONFLICT, {
+                    cause: {},
+                });
+            }
+        }
         const data = await this.employeeService.updateEmployee(id, employeeDetail);
         if (data) {
             return this.appService.generateSuccessResponse(data);

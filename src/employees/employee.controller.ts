@@ -66,6 +66,14 @@ export class EmployeeController {
   async createEmployee(
     @Body() employeeDetail: CreateEmployeeDto,
   ): Promise<EmployeeDto> {
+    if (employeeDetail.email) {
+      const getEmployeeDetailsByEmail = await this.employeeService.getEmployeeDetailsUsingEmail(employeeDetail.email);
+      if (getEmployeeDetailsByEmail?.id) {
+        throw new HttpException('Email already exists', HttpStatus.CONFLICT, {
+          cause: {},
+        });
+      }
+    }
     const data: any = await this.employeeService.createEmployee(employeeDetail);
     if (data) {
       return this.appService.generateSuccessResponse(data);
@@ -116,6 +124,14 @@ export class EmployeeController {
     @Param('id') id: number,
     @Body() employeeDetail: UpdateEmployeeDto,
   ): Promise<any> {
+    if (employeeDetail.email) {
+      const getEmployeeDetailsByEmail = await this.employeeService.getEmployeeDetailsUsingEmail(employeeDetail.email);
+      if (getEmployeeDetailsByEmail.id != id) {
+        throw new HttpException('Email already exists', HttpStatus.CONFLICT, {
+          cause: {},
+        });
+      }
+    }
     const data: any = await this.employeeService.updateEmployee(
       id,
       employeeDetail,
